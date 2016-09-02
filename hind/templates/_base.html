@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+{#
+    Jinja2 blocks defined in this template:
+        title:  Page title, appended to "HiND."
+        head:   Extra <head> code.
+        body:   Extra <body> code.
+        help:   The contents of the help dialog box.
+#}
+
+<html lang='en-US'>
+    <head>
+        <!-- Bootstrap CSS, JQuery, and Javascript -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <meta charset='utf-8' />
+        <title>HiND{%block title %}{% endblock title %}</title>
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body>
+        {% include 'tool_navbar.html' %}
+        <div class='container-fluid'>
+            {% block body %}
+            {% endblock body %}
+        </div>
+        <div id='help' class='modal fade' role='dialog'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <button type='button' class='close' data-dismiss='modal'>
+                            &times;
+                        </button>
+                        <h4 class='modal-title'>Help</h4>
+                    </div>
+                    <div class='modal-body'>
+                        {% block help %}
+                        {% endblock help %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

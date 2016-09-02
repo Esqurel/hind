@@ -1,0 +1,45 @@
+{% extends 'base_table.html' %}
+
+{% set users = [{'name': 'Pelican', 'email': 'pelican@esqurel.com', 'roles': ['Admin'], 'is_active': true},
+               {'name': 'Senior', 'email': 'senior@esqurel.com', 'roles': ['Editor'], 'is_active': true},
+               {'name': 'Herald', 'email': 'herald@esqurel.com', 'roles': [], 'is_active': false}] %}
+{% set roles = ['Admin', 'Editor'] %}
+
+{% block title %}: User Administration{% endblock title %}
+
+{% block table_headers %}
+    <th>Username</th>
+    <th>Email</th>
+    <th>Roles</th>
+    <th>Status</th>
+{% endblock table_headers %}
+
+{% block table_body %}
+    {% for user in users %}
+        <tr {{ 'class=danger' if not user.is_active }}>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                {% for role in roles %}
+                    <label class='checkbox-inline'>
+                        {% set has_role = 'checked=""' if role in user.roles %}
+                        <input type='checkbox' value={{ user.name + '_' + role }} {{ has_role }} />
+                        {{ role }}
+                    </label>
+                {% endfor %}
+            </td>
+            <td>
+                <label class='checkbox-inline'>
+                    {% set banned = 'checked=""' if not user.is_active %}
+                    <input type='checkbox' value={{ user.name + '_banned' }} {{ banned }} />
+                    Banned
+                </label>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock table_body %}
+
+{% block help %}
+    <p><strong>Explanation of roles:</strong></p>
+    <p><em>Admin</em> can ban/unban users and edit user permissions. <em>Editors</em> can edit tags and sources.</p>
+{% endblock help %}

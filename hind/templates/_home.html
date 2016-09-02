@@ -1,0 +1,41 @@
+{% extends '_base.html' %}
+{% set dict1 = {'English': 17, 'French': 13, 'German': 11, 'Italian': 9, 'Spanish': 7} %}
+{% set dict2 = {'John': ['English', '12th century', '13th century', '14th century', 'Withycombe', 'common'], 'de': ['English', 'French', '12th century', 'R&W', 'common'], 'Woode': ['English', '12th century', 'R&W']} %}
+
+{% block title %}: Home{% endblock title %}
+
+{% block body %}
+    <div class='row'>
+        <div class='col-sm-4'>
+            <div class='panel panel-default'>
+                <div class='panel-heading'>
+                    Language
+                </div>
+                <div class='list-group'>
+                    {% for language in dict1 %}
+                    <a class='list-group-item' href='#'>
+                        {{ language }}
+                        <span class='badge'>
+                            {{ dict1[language] }}
+                        </span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class='col-sm-8'>
+            <div class='panel-group'>
+                {% for element in dict2 %}
+                <div class='panel panel-default'>
+                    <div class='panel-heading'>
+                        <strong>{{ element }}</strong>
+                    </div>
+                    <div class='panel-body'>
+                        {{ ', '.join(dict2[element]) }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock body %}

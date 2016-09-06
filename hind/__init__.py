@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_babel import Babel
 from flask_login import LoginManager
+from flask_principal import Principal
 from flask_sqlalchemy import SQLAlchemy
 
 from hind.config import config
@@ -11,7 +12,8 @@ app.config.update(config)
 
 babel = Babel(app)
 db = SQLAlchemy(app)
-lm = LoginManager(app)
+login = LoginManager(app)
+principals = Principal(app)
 
 
 import hind.models as models

@@ -1,45 +1,49 @@
 {% extends 'base_table.html' %}
 
-{% set users = [{'name': 'Pelican', 'email': 'pelican@esqurel.com', 'roles': ['Admin'], 'is_active': true},
-               {'name': 'Senior', 'email': 'senior@esqurel.com', 'roles': ['Editor'], 'is_active': true},
-               {'name': 'Herald', 'email': 'herald@esqurel.com', 'roles': [], 'is_active': false}] %}
-{% set roles = ['Admin', 'Editor'] %}
-
-{% block title %}: User Administration{% endblock title %}
+{% block title %}: {{ _('Edit Users') }}{% endblock title %}
 
 {% block table_headers %}
-    <th>Username</th>
-    <th>Email</th>
-    <th>Roles</th>
-    <th>Status</th>
+    <th>{{ _('Username') }}</th>
+    <th>{{ _('Email') }}</th>
+    <th>{{ _('Roles') }}</th>
+    <th>{{ _('Status') }}</th>
 {% endblock table_headers %}
+
+{% block before_table %}
+{% endblock before_table %}
 
 {% block table_body %}
     {% for user in users %}
-        <tr {{ 'class=danger' if not user.is_active }}>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-                {% for role in roles %}
+        <a href={{ url_for('information', category='users', name=user.name) }}>
+            <tr {{ 'class=danger' if not user.is_active }}>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.get('last_login', None) }}</td>
+                <td>
+                    {% for role in roles %}
+                        <label class='checkbox-inline'>
+                            {% set has_role = 'checked=""' if role in user.roles %}
+                            <input type='checkbox' value={{ user.name + '_' + role }} {{ has_role }} />
+                            {{ role }}
+                        </label>
+                    {% endfor %}
+                </td>
+                <td>
                     <label class='checkbox-inline'>
-                        {% set has_role = 'checked=""' if role in user.roles %}
-                        <input type='checkbox' value={{ user.name + '_' + role }} {{ has_role }} />
-                        {{ role }}
+                        {% set banned = 'checked=""' if not user.is_active %}
+                        <input type='checkbox' value={{ user.name + '_banned' }} {{ banned }} />
+                        {{ _('Banned') }}
                     </label>
-                {% endfor %}
-            </td>
-            <td>
-                <label class='checkbox-inline'>
-                    {% set banned = 'checked=""' if not user.is_active %}
-                    <input type='checkbox' value={{ user.name + '_banned' }} {{ banned }} />
-                    Banned
-                </label>
-            </td>
-        </tr>
+                </td>
+            </tr>
+        </a>
     {% endfor %}
 {% endblock table_body %}
 
+{% block after_table %}
+{% endblock after_table %}
+
 {% block help %}
-    <p><strong>Explanation of roles:</strong></p>
-    <p><em>Admin</em> can ban/unban users and edit user permissions. <em>Editors</em> can edit tags and sources.</p>
+    <p><strong>{{ _('Explanation of roles') }}:</strong></p>
+    <p><em>Admin</em> {{ _('can ban/unban users and edit user permissions.') }} <em>Editors</em> {{ _('can edit tags and sources.') }}</p>
 {% endblock help %}

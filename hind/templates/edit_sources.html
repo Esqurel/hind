@@ -1,30 +1,9 @@
-{% extends 'base_table.html' %}
-{% set sources = [{'title': 'An Index to the Given Names in the 1292 Census of Paris', 'author': 'Comn Dubh'},
-                  {'title': 'Yorkshire Given Names from 1379', 'author': 'Talan Gwynek'},
-                  {'title': 'German Names from Nürnberg, 1497', 'author': 'Aryanhwy merch Catmael'},
-                  {'title': 'Deutsches Nameslexikon', 'alias': 'Bahlow', 'author': 'Hans Bahlow'},
-                  {'title': 'Etymologisches Wörterbuch der Deutschen Familiennamen', 'alias': 'Brechenmacher', 'author': 'Josef Karlmann Brechenmacher'},
-                  {'title': 'The Old Norse Name', 'alias': 'Geirr Bassi', 'author': 'Geirr Bassi Haraldsson'},
-                  {'title': 'Oxford Dictionary of English Christian Names', 'alias': 'Withycombe', 'author': 'E. G. Withycombe'}] %}
-
-{% block title %}{% endblock title %}
-
-{% block table_headers %}
-    <th>Title</th>
-    <th>Alias</th>
-    <th>Author</th>
-{% endblock table_headers %}
+{% extends '_base_edit.html' %}
 
 {% block table_body %}
-    {% for source in sources %}
-        <a href='#'>
-            <tr>
-                <td>{{ source.title }}</td>
-                <td>[{{ source.get('alias', '-') }}]</td>
-                <td>{{ source.author }}</td>
-            </tr>
-        </a>
-    {% endfor %}
+    <td>{{ row.title }}</td>
+    <td>{{ row.get('alias', '-') }}</td>
+    <td>{{ row.author }}</td>
 {% endblock table_body %}
 
 {% block help %}

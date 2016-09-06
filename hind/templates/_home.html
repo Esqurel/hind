@@ -1,8 +1,6 @@
 {% extends '_base.html' %}
-{% set dict1 = {'English': 17, 'French': 13, 'German': 11, 'Italian': 9, 'Spanish': 7} %}
-{% set dict2 = {'John': ['English', '12th century', '13th century', '14th century', 'Withycombe', 'common'], 'de': ['English', 'French', '12th century', 'R&W', 'common'], 'Woode': ['English', '12th century', 'R&W']} %}
 
-{% block title %}: Home{% endblock title %}
+{% block title %}: {{ _('Home') }}{% endblock title %}
 
 {% block body %}
     <div class='row'>
@@ -39,3 +37,6 @@
         </div>
     </div>
 {% endblock body %}
+
+{% block help %}
+{% endblock help %}

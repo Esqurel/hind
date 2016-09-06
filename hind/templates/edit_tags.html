@@ -1,0 +1,14 @@
+{% extends '_base_edit.html' %}
+
+{% block table_row %}
+    <td>{{ row.name }}</td>
+    <td>{{ row.category }}</td>
+    <td>
+        <span class='badge'>
+            {{ row.count }}
+        </span>
+    </td>
+{% endblock table_row %}
+
+{% block help %}
+{% endblock help %}

@@ -1,12 +1,17 @@
-from flask import render_template
-from flask_login import logout_user
+from flask import redirect, render_template, url_for
+from flask_login import current_user, logout_user
 
 from hind import app
+import hind.models as models
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('_home.html')
+    dict1 = {'English': 17, 'French': 13, 'German': 11, 'Italian': 9, 'Spanish': 7}
+    dict2 = {'John': ['English', '12th century', '13th century', '14th century', 'Withycombe', 'common'],
+             'de': ['English', 'French', '12th century', 'R&W', 'common'],
+             'Woode': ['English', '12th century', 'R&W']}
+    return render_template('_home.html', dict1=dict1, dict2=dict2)
 
 
 # User routes.
@@ -25,61 +30,35 @@ def user_logout():
     logout_user()
     return render_template('_home.html')
 
-"""
-# Edit routes.
-@app.route('/edit_elements', methods=['GET', 'POST'], defaults={'page': 1})
-@app.route('/edit_elements/<int:page>', methods=['GET', 'POST'])
-def edit_elements(page):
-    return render_template('edit_elements.html', current_page=page)
 
-
-@app.route('/edit_sources', methods=['GET', 'POST'], defaults={'page': 1})
-@app.route('/edit_sources/<int:page>', methods=['GET', 'POST'])
-def edit_sources(page):
-    return render_template('edit_sources.html', current_page=page)
-
-
-@app.route('/edit_tags', methods=['GET', 'POST'], defaults={'page': 1})
-@app.route('/edit_tags/<int:page>', methods=['GET', 'POST'])
-def edit_tags(page):
-    return render_template('edit_tags.html', current_page=page)
-
-
-@app.route('/edit_users', methods=['GET', 'POST'], defaults={'page': 1})
-@app.route('/edit_users/<int:page>', methods=['GET', 'POST'])
-def edit_users(page):
-    return render_template('edit_users.html', current_page=page)
-"""
-
-@app.route('/edit_<string:category>', methods=['GET', 'POST'], defaults={'page': 1})
+@app.route('/edit_<string:category>', methods=['GET', 'POST'])
 @app.route('/edit_<string:category>/<int:page>', methods=['GET', 'POST'])
-def edit(category, page):
+def edit(category, page=1):
     template = 'edit_{0}.html'.format(category)
-    return render_template(template, current_page=page)
+    users = [{'name': 'Pelican', 'email': 'pelican@esqurel.com', 'roles': ['Admin'], 'is_active': True},
+             {'name': 'Senior', 'email': 'senior@esqurel.com', 'roles': ['Editor'], 'is_active': True},
+             {'name': 'Herald', 'email': 'herald@esqurel.com', 'roles': [], 'is_active': False}]
+    roles = ['Admin', 'Editor']
+    sources = [{'title': 'An Index to the Given Names in the 1292 Census of Paris', 'author': 'Comn Dubh'},
+               {'title': 'Yorkshire Given Names from 1379', 'author': 'Talan Gwynek'},
+               {'title': 'German Names from Nürnberg, 1497', 'author': 'Aryanhwy merch Catmael'},
+               {'title': 'Deutsches Nameslexikon', 'alias': 'Bahlow', 'author': 'Hans Bahlow'},
+               {'title': 'Etymologisches Wörterbuch der Deutschen Familiennamen', 'alias': 'Brechenmacher', 'author': 'Josef Karlmann Brechenmacher'},
+               {'title': 'The Old Norse Name', 'alias': 'Geirr Bassi', 'author': 'Geirr Bassi Haraldsson'},
+               {'title': 'Oxford Dictionary of English Christian Names', 'alias': 'Withycombe', 'author': 'E. G. Withycombe'}]
+    return render_template(template, current_page=page, users=users, roles=roles, sources=sources)
 
-"""
-# Information routes.
-@app.route('/element/<str:element>', methods=['GET', 'POST'])
-def info_element(element):
-    return render_template('info_element.html', item=element)
-
-
-@app.route('/source/<str:source>', methods=['GET', 'POST'])
-def info_source(source):
-    return render_template('info_source.html', item=source)
-
-
-@app.route('/tag/<str:tag>', methods=['GET', 'POST'])
-def info_tag(tag):
-    return render_template('info_tag.html', item=tag)
-
-
-@app.route('/user/<str:user>', methods=['GET', 'POST'])
-def info_user(user):
-    return render_template('info_user.html', item=user)
-"""
 
 @app.route('/<string:category>/<string:name>', methods=['GET', 'POST'])
 def information(category, name):
+    try:
+        pass
+    except Exception:
+        print(Exception)
     template = 'info_{0}.html'.format(category)
     return render_template(template, item=name)
+
+
+@app.route('/users/me', methods=['GET', 'POST'])
+def my_profile():
+    return redirect(url_for('information', category='users', name=current_user.name))

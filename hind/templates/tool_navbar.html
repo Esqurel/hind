@@ -1,7 +1,7 @@
 {% set links=[{'name': 'SENA', 'url': 'http://heraldry.sca.org/sena.html'},
               {'name': 'Morsulus', 'url': 'http://morsulus.org/'}] %}
-{% set tools=[{'name': 'Edit Sources', 'page': 'edit_sources'},
-              {'name': 'Edit Users', 'page': 'edit_users'}] %}
+{% set tools=[{'name': 'Edit Sources', 'page': 'sources'},
+              {'name': 'Edit Users', 'page': 'users'}] %}
 
 <nav class='navbar navbar-default'>
 	<div class='navbar-header'>
@@ -18,7 +18,7 @@
 		<ul class='nav navbar-nav'>
 		    <li class='dropdown'>
                 <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-                    Links
+                    {{ _('Links') }}
                     <span class='caret'></span>
                 </a>
                 <ul class='dropdown-menu'>
@@ -33,13 +33,13 @@
             </li>
             <li class='dropdown'>
                 <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-                    Tools
+                    {{ _('Tools') }}
                     <span class='caret'></span>
                 </a>
                 <ul class='dropdown-menu'>
                     {% for tool in tools %}
                         <li>
-                            <a href={{ url_for(tool.page) }}>
+                            <a href={{ url_for('edit', category=tool.page) }}>
                                 {{ tool.name }}
                             </a>
                         </li>
@@ -51,19 +51,19 @@
 	        <li>
 		        <a href='#' data-toggle='modal' data-target='#help'>
 		            <span class='glyphicon glyphicon-question-sign'></span>
-		                Help
+		                {{ _('Help') }}
                 </a>
             </li>
             <li>
 		        {% if current_user.is_authenticated %}
                     <a href={{ url_for('user_logout') }}>
                         <span class='glyphicon glyphicon-log-out'></span>
-                        Logout
+                        {{ _('Logout') }}
                     </a>
                 {% else %}
                     <a href={{ url_for('user_login') }}>
                         <span class='glyphicon glyphicon-log-in'></span>
-                        Login
+                        {{ _('Login') }}
                     </a>
                 {% endif %}
         </ul>
